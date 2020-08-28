@@ -16,6 +16,7 @@
 #include <QStyleOption>
 #include <QVBoxLayout>
 
+#include "dialogs/EditHiddenEvents.h"
 #include "dialogs/RoomSettings.h"
 
 #include "Cache.h"
@@ -244,6 +245,13 @@ RoomSettings::RoomSettings(const QString &room_id, QWidget *parent)
         roomVersionLayout->addWidget(new QLabel(tr("Room Version"), this),
                                      Qt::AlignBottom | Qt::AlignLeft);
         roomVersionLayout->addWidget(roomVersionLabel, 0, Qt::AlignBottom | Qt::AlignRight);
+
+        auto hideEventsLayout = new QHBoxLayout;
+        hideEventsLayout->setMargin(0);
+        hideEventsLayout->addWidget(new QLabel(tr("Hidden events"), this),
+                                    Qt::AlignBottom | Qt::AlignLeft);
+        auto editHiddenEventsButton = new QPushButton("Hide/unhide events", this);
+        hideEventsLayout->addWidget(editHiddenEventsButton, 0, Qt::AlignBottom | Qt::AlignRight);
 
         auto notifLabel = new QLabel(tr("Notifications"), this);
         notifCombo      = new QComboBox(this);
@@ -517,7 +525,7 @@ RoomSettings::RoomSettings(const QString &room_id, QWidget *parent)
         spinnerLayout->setMargin(0);
         spinnerLayout->setSpacing(0);
 
-        auto okBtn = new QPushButton("OK", this);
+        auto okBtn = new QPushButton(tr("OK"), this);
 
         auto buttonLayout = new QHBoxLayout();
         buttonLayout->setSpacing(15);
@@ -535,6 +543,7 @@ RoomSettings::RoomSettings(const QString &room_id, QWidget *parent)
         layout->addWidget(infoLabel, Qt::AlignLeft);
         layout->addLayout(roomIdLayout);
         layout->addLayout(roomVersionLayout);
+        layout->addLayout(hideEventsLayout);
         layout->addWidget(errorLabel_);
         layout->addLayout(buttonLayout);
         layout->addLayout(spinnerLayout);
@@ -565,6 +574,10 @@ RoomSettings::RoomSettings(const QString &room_id, QWidget *parent)
         auto closeShortcut = new QShortcut(QKeySequence(QKeySequence::Cancel), this);
         connect(closeShortcut, &QShortcut::activated, this, &RoomSettings::close);
         connect(okBtn, &QPushButton::clicked, this, &RoomSettings::close);
+        connect(editHiddenEventsButton, &QPushButton::clicked, this, [this]() {
+                auto dialog = new dialogs::EditHiddenEvents(this);
+                dialog->showNormal();
+        });
 }
 
 void

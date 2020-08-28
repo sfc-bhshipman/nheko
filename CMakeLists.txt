@@ -227,6 +227,7 @@ set(SRC_FILES
 	# Dialogs
 	src/dialogs/AcceptCall.cpp
 	src/dialogs/CreateRoom.cpp
+	src/dialogs/EditHiddenEvents.cpp
 	src/dialogs/FallbackAuth.cpp
 	src/dialogs/ImageOverlay.cpp
 	src/dialogs/InviteUsers.cpp
@@ -440,6 +441,7 @@ qt5_wrap_cpp(MOC_HEADERS
 	# Dialogs
 	src/dialogs/AcceptCall.h
 	src/dialogs/CreateRoom.h
+	src/dialogs/EditHiddenEvents.h
 	src/dialogs/FallbackAuth.h
 	src/dialogs/ImageOverlay.h
 	src/dialogs/InviteUsers.h
