@@ -761,6 +761,7 @@ TimelineModel::syncState(const mtx::responses::State &s)
                 } else if (std::holds_alternative<StateEvent<state::Member>>(e)) {
                         emit roomAvatarUrlChanged();
                         emit roomNameChanged();
+                        emit roomMemberCountChanged();
                 }
         }
 }
@@ -817,6 +818,7 @@ TimelineModel::addEvents(const mtx::responses::Timeline &timeline)
                 } else if (std::holds_alternative<StateEvent<state::Member>>(e)) {
                         emit roomAvatarUrlChanged();
                         emit roomNameChanged();
+                        emit roomMemberCountChanged();
                 }
         }
         updateLastMessage();
@@ -1924,4 +1926,10 @@ TimelineModel::roomTopic() const
         else
                 return utils::replaceEmoji(utils::linkifyMessage(
                   QString::fromStdString(info[room_id_].topic).toHtmlEscaped()));
+}
+
+int
+TimelineModel::roomMemberCount() const
+{
+        return (int)cache::client()->memberCount(room_id_.toStdString());
 }
